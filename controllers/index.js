@@ -20,4 +20,9 @@ const getAllStudents = async (req, res) => {
   }
 };
 
-module.exports = { awesomeFunction, tooeleTech, getAllStudents };
+// custom page stealth
+const gives = (Req, res) => {
+  res.send("Only cats stay tough around spiders!");
+};
+
+module.exports = { awesomeFunction, tooeleTech, getAllStudents, gives };

@@ -24,5 +24,5 @@ connectDB();
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log("\x1b[45m%s\x1b[0m", `Connected to DB and listening on: ${PORT}`);
 });
