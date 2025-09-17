@@ -11,16 +11,6 @@ const tooeleTech = (Req, res) => {
   res.send("Tooele Tech is Awesome!");
 };
 
-// Get all students
-// const getAllStudents = async (req, res) => {
-//   try {
-//     const students = await Student.find();
-//     res.status(200).json(students);
-//     console.log("Students fetched successfully: ", students);
-//   } catch (error) {
-//     res.status(500).json({ message: "Error fetching students", error });
-//   }
-// };
 const getAllStudents = async (req, res) => {
   try {
     const result = await mongodb.getDb().db().collection("students").find();
