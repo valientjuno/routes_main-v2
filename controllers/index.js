@@ -9,11 +9,7 @@ const tooeleTech = (Req, res) => {
   res.send("Tooele Tech is Awesome!");
 };
 
-<<<<<<< Updated upstream
-=======
-// GET all students
-
->>>>>>> Stashed changes
+// GET All Students
 const getAllStudents = async (req, res) => {
   try {
     const students = await Student.find();
