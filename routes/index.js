@@ -1,13 +1,9 @@
-const myController = require("../controllers");
 const routes = require("express").Router();
+const myController = require("../controllers/index");
 
 routes.get("/", myController.awesomeFunction);
-
 routes.get("/ttech", myController.tooeleTech);
 
-routes.get("/students", myController.getAllStudents);
-
-// custom route stealth
-routes.get("/gives", myController.gives);
+routes.use("/students", require("./students"));
 
 module.exports = routes;

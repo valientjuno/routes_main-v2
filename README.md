@@ -13,6 +13,9 @@ https://routes-main-v2.onrender.com
 /awesomeFunction
 /tooeleTech
 /getAllStudents
+/getSingleStudent
+/createStudent
+/deleteStudent
 /gives
 
 Enjoy!

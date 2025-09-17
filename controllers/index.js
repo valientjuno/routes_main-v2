@@ -1,5 +1,7 @@
 // controllers/studentController.js
-const Student = require("../models/Student"); // Assuming a Mongoose Student model is defined in models/Student.js
+const { response } = require("express");
+const mongodb = require("../db/connect");
+const ObjectId = require("mongodb").ObjectId;
 
 const awesomeFunction = (Req, res) => {
   res.send("Hello World!");
@@ -12,11 +14,86 @@ const tooeleTech = (Req, res) => {
 // GET All Students
 const getAllStudents = async (req, res) => {
   try {
-    const students = await Student.find();
-    res.status(200).json(students);
-    console.log("Students fetched successfully: ", students);
+    const result = await mongodb.getDb().db().collection("students").find();
+    result.toArray().then((lists) => {
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).json(lists);
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error fetching students", error });
+    res.status(500).json(error);
+  }
+};
+
+// GET single student
+const getSingleStudent = async (req, res) => {
+  try {
+    const userId = new ObjectId(req.params.id);
+    const result = await mongodb
+      .getDb()
+      .db()
+      .collection("students")
+      .find({ _id: userId });
+    result.toArray().then((lists) => {
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).json(lists[0]);
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+// CREATE contact
+const createStudent = async (req, res) => {
+  try {
+    const student = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      age: req.body.age,
+      currentCollege: req.body.currentCollege,
+    };
+
+    const response = await mongodb
+      .getDb()
+      .db()
+      .collection("students")
+      .insertOne(student);
+    if (response.acknowledged) {
+      res.status(201).json(response);
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error || "Some error occured while creating the student."
+        );
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+// delete student
+
+const deleteStudent = async (req, res) => {
+  try {
+    const userId = new ObjectId(req.params.id);
+    const response = await mongodb
+      .getDb()
+      .db()
+      .collection("students")
+      .deleteOne({ _id: userId }, true);
+    console.log(response);
+    if (response.acknowledged) {
+      res.status(200).send(response);
+    } else {
+      res
+        .status(500)
+        .json(
+          response.error || "Some error occurred while deleting the student."
+        );
+    }
+  } catch (error) {
+    res.status(500).json(error);
   }
 };
 
@@ -25,4 +102,12 @@ const gives = (Req, res) => {
   res.send("Only cats stay tough around spiders!");
 };
 
-module.exports = { awesomeFunction, tooeleTech, getAllStudents, gives };
+module.exports = {
+  awesomeFunction,
+  tooeleTech,
+  getAllStudents,
+  getSingleStudent,
+  createStudent,
+  deleteStudent,
+  gives,
+};
