@@ -9,7 +9,6 @@ const tooeleTech = (Req, res) => {
   res.send("Tooele Tech is Awesome!");
 };
 
-// Get all students
 const getAllStudents = async (req, res) => {
   try {
     const students = await Student.find();
